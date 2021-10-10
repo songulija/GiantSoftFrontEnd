@@ -21,7 +21,7 @@ function RegisterScreen() {
                     <label for="floatingInput">Lastname</label>
                     </div>
                     <div className ="form-floating">
-                    <input type ="number" className ="form-control" id="floatingNumber" placeholder="PhoneNumber"/>
+                    <input type ="tel" className ="form-control" id="floatingNumber" placeholder="PhoneNumber"/>
                     <label for="floatingNumber">Phone number</label>
                     </div>
                     <div className ="form-floating">
