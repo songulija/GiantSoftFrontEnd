@@ -1,0 +1,21 @@
+.header {
+    text-align: center;
+  }
+  
+  #nav {
+    background-color: red;
+    color: red;
+  }
+  
+  .toast {
+    margin: 0 auto;
+  }
+  
+  .custom-btn-toolbar {
+    display: inline !important;
+  }
+  
+  .custom-btn-toolbar > .btn {
+    margin-right: 1rem;
+  }
+  
