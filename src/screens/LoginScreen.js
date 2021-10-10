@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import Eimis from '../components/Eimis'
 
 function LoginScreen() {
     return (
