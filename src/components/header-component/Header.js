@@ -21,7 +21,7 @@ class Header extends React.Component {
     }
     async componentDidMount() {
         // Simple GET request using axios
-        const response = await axios.get('api/categories');
+        const response = await axios.get('/api/categories');
         this.setState({
             categories: response.data,
         })
@@ -31,7 +31,7 @@ class Header extends React.Component {
         return (
             <>
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                    <Navbar.Brand href="#home">GiantSoft</Navbar.Brand>
+                    <Navbar.Brand href="/">GiantSoft</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="ml-auto">
