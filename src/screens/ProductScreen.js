@@ -20,7 +20,13 @@ class ProductScreen extends React.Component {
     }
 
     addToCartHandler = (e) => {
+        const obj = {
+            
+        }
+    }
 
+    addToCartHandler = () =>{
+        this.props.history.push(`/cart/${this.props.match.params.id}?qty=${this.state.qty}`)
     }
     async componentDidMount() {
         const response = await axios.get(`/api/products/${this.state.productId}`);
