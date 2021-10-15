@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
+import store from './redux/store.js'
+import {Provider} from 'react-redux';//provider just connects our global state(Store) to whole App
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+ReactDOM.render(//provider just connects our global state(Store) to whole App, and provide store
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
