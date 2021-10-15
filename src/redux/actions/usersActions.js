@@ -18,15 +18,19 @@ export const login = (email, password) => async (dispatch) => {
         
         //we want to make post request and pass object with email and password. and as third argument pass config
         //this post request will return json data. _id,name,email .. TOKEN
-        const { data } = await axios.post('/api/Accounts/login', { email, password }, config)
-
+        const postObject = {
+            "email": email,
+            "password":password
+        }
+        const response = await axios.post('/api/Accounts/login', postObject, config)
+        console.log('Login response is: '+JSON.stringify(response))
         dispatch({//dispatch action with type/name USER_LOGIN_SUCCESS. and send data as payload
             type: 'USER_LOGIN_SUCCESS',
-            payload: data
+            payload: response.data
         })
 
         //then we want to set our user to local storage. set this 'userInfo' and pass data as as string(json)
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem('userInfo', response.data.token);
 
 
     } catch (error) {//if something fails then dispatch action with type/name PRODUCT_DETAILS_FAIL and pass error data as payload
@@ -39,12 +43,8 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-
-    localStorage.removeItem('userInfo')
     dispatch({ type: 'USER_LOGOUT' })
-    dispatch({ type: 'USER_DETAILS_RESET' })//when logout to dispatch these two actions 
-    dispatch({ type: 'ORDER_LIST_MY_RESET' })//to emtpy user details and orders of that user that was logged
-    dispatch({ type: 'USER_LIST_RESET' })// to reset userlist (admin)
+    localStorage.removeItem('userInfo')
 }
 
 
@@ -62,22 +62,22 @@ export const register = (postObject) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/Accounts/register',
+        const response = await axios.post('/api/Accounts/register',
             postObject,
             config
         )
 
         dispatch({
             type: 'USER_REGISTER_SUCCESS',
-            payload: data,
+            payload: response.data,
         })
 
         dispatch({
             type: 'USER_LOGIN_SUCCESS',
-            payload: data,
+            payload: response.data,
         })
 
-        localStorage.setItem('userInfo', JSON.stringify(data))
+        localStorage.setItem('userInfo', response.data)
 
     } catch (error) {
         dispatch({

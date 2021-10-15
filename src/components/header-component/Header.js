@@ -27,6 +27,7 @@ function Header() {
     }, []);
     const logoutHandler = ()=>{
         dispatch(logout);
+        console.log('Logout')
     }
     // if fetchData is changed it will trigger useEffect again
     useEffect(() => {
