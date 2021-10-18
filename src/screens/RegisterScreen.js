@@ -15,18 +15,18 @@ function RegisterScreen({ location, history }) {
 
     const dispatch = useDispatch();
     //useSelector is function. we 'll access entire state(Store). we can just pull out state.userRegister
-    const userRegister = useSelector((state) => state.userRegister);
+    const usersReducer = useSelector((state) => state.usersReducer);
     // getting userInfo from userRegister state
-    const { loading, error, userInfo } = userRegister;
+    const { loading, error, currentUser } = usersReducer;
 
     //check the query string. if there is then take left size of query which is number
     const redirect = location.search ? location.search.split('=')[1] : '/';
 
     useEffect(() => {
-        if (userInfo) {//if user info exist than means we already are logged in
+        if (currentUser) {//if user info exist than means we already are logged in
             history.push(redirect)//redirect to whatever is in redirect
         }
-    }, [history, userInfo, redirect]);
+    }, [history, currentUser, redirect]);
 
     //we want to redirect if we already logged in
     const submitHandler = function (e) {

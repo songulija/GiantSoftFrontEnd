@@ -5,7 +5,6 @@ export const login = (email, password) => async (dispatch) => {
         dispatch({//first dispatch action with type/name USER_LOGIN_REQUEST. reducer will caught it. and set loading to true
             type: 'USER_LOGIN_REQUEST'
         })
-
         //then we want to dispatch 'USER_LOGIN_SUCCESS' but we need to check data first
         //but when we're sending data we want to send it in headers
 
@@ -14,8 +13,6 @@ export const login = (email, password) => async (dispatch) => {
                 'Content-Type': 'application/json'
             }
         }
-
-        
         //we want to make post request and pass object with email and password. and as third argument pass config
         //this post request will return json data. _id,name,email .. TOKEN
         const postObject = {
@@ -23,14 +20,14 @@ export const login = (email, password) => async (dispatch) => {
             "password":password
         }
         const response = await axios.post('/api/Accounts/login', postObject, config)
-        console.log('Login response is: '+JSON.stringify(response))
+        console.log('Login response is: '+JSON.stringify(response.data))
         dispatch({//dispatch action with type/name USER_LOGIN_SUCCESS. and send data as payload
             type: 'USER_LOGIN_SUCCESS',
-            payload: response.data
+            payload: response.data.token
         })
 
         //then we want to set our user to local storage. set this 'userInfo' and pass data as as string(json)
-        localStorage.setItem('userInfo', response.data.token);
+        localStorage.setItem('currentUser', response.data.token);
 
 
     } catch (error) {//if something fails then dispatch action with type/name PRODUCT_DETAILS_FAIL and pass error data as payload
@@ -43,8 +40,8 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
+    localStorage.removeItem('currentUser')
     dispatch({ type: 'USER_LOGOUT' })
-    localStorage.removeItem('userInfo')
 }
 
 
@@ -69,15 +66,15 @@ export const register = (postObject) => async (dispatch) => {
 
         dispatch({
             type: 'USER_REGISTER_SUCCESS',
-            payload: response.data,
+            payload: response.data.token,
         })
 
         dispatch({
             type: 'USER_LOGIN_SUCCESS',
-            payload: response.data,
+            payload: response.data.token,
         })
 
-        localStorage.setItem('userInfo', response.data)
+        localStorage.setItem('currentUser', response.data.token);
 
     } catch (error) {
         dispatch({

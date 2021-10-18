@@ -19,14 +19,15 @@ function Header() {
     const dispatch = useDispatch();
 
     //check if user is logged in. getting  userLogin state
-    const userLogin = useSelector((state) => state.userLogin);
+    const usersReducer = useSelector((state) => state.usersReducer);
+    const { currentUser } = usersReducer;
 
     const fetchData = useCallback(async () => {
         let response = await axios.get('/api/categories');
         setCategories(response.data);
     }, []);
     const logoutHandler = ()=>{
-        dispatch(logout);
+        dispatch(logout());
         console.log('Logout')
     }
     // if fetchData is changed it will trigger useEffect again
@@ -82,7 +83,7 @@ function Header() {
                             </Nav.Link>
                         </LinkContainer>
 
-                        {userLogin.userInfo ? (
+                        {currentUser? (
                             <Button onClick={logoutHandler}>Logout</Button>
                         ) : (
                             <LinkContainer to="/login">

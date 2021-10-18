@@ -11,18 +11,18 @@ function LoginScreen({ location, history }) {
 
     const dispatch = useDispatch();
 
-    const userLogin = useSelector((state)=>state.userLogin);
-    const { loading, error, userInfo } = userLogin;//we want to distructure userLogin to these
+    const usersReducer = useSelector((state)=>state.usersReducer);
+    const { loading, error, currentUser } = usersReducer;//we want to distructure userLogin to these
 
     //check the query string. if there is then take left size of query which is number
     const redirect = location.search ? location.search.split('=')[1] : '/';
 
     //we want to redirect if we already logged in
     useEffect(() => {
-        if (userInfo) {//if user info exist than means we already are logged in
+        if (currentUser) {//if user info exist than means we already are logged in
             history.push(redirect)//redirect to whatever is in redirect
         }
-    }, [history, userInfo, redirect])//if userInfo changed we want to redirect
+    }, [history, currentUser, redirect])//if userInfo changed we want to redirect
 
     const submitHandler = (e)=> {
         e.preventDefault();//prevemnt default behaviour when submit button is clicked. preved refresh of page
