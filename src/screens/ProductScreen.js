@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react';
+import moment from "moment";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios';
@@ -19,19 +20,25 @@ function ProductScreen(props) {
     const history = useHistory();
 
     // post request to /api/whishlist route. provide whishlist object needed values
-    const addToCartHandler = (e) =>{
-        const obj = {
+    // const addToCartHandler = (e) =>{
+    //     addToWhishlist()
+    //     history.push(`/cart/${this.props.match.params.id}?qty=${this.state.qty}`)
+    // }
 
+    const addToWhishlist = async(e)=>{
+        // if there is user logged and if we have userId of that logged user
+        if(currentUser!== null && usersReducer.userId !== 0){
+            
+            const obj = {
+                "userId": usersReducer.userId,
+                "productId": productId
+            }
+            console.log('POST object is: '+ JSON.stringify(obj));
+            const response = await axios.post(`/api/wishlists`,obj);
+            console.log('Response is:'+response.data)
+            history.push(`/cart/${props.match.params.id}?qty=${qty}`)
         }
-        history.push(`/cart/${this.props.match.params.id}?qty=${this.state.qty}`)
-    }
-
-    const addToWhishlist = async()=>{
-        // if there is user logged in then
-        if(currentUser){
-
-        }
-        const response = await axios.post(`/api/whishlists`,)
+        // const response = await axios.post(`/api/whishlists`,)
     }
 
     const getProduct = async()=>{
@@ -39,19 +46,9 @@ function ProductScreen(props) {
         setProduct(response.data);
     }
 
-    // const getUser = async()=>{
-    //     const config = {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             Authorization: `Bearer ${currentUser}`
-    //         }
-    //     }//setting authorization to our token
-    //     const response = await axios.get(`/api/accounts`,config);
-    //     console.log('User is:'+response.data);
-
-    // }
     useEffect(()=>{
         getProduct();
+        // to get userId
         dispatch(getUserId());
     },[])
     
@@ -114,7 +111,7 @@ function ProductScreen(props) {
                                 </ListGroup.Item>
                             )}
                             <ListGroup.Item>
-                                <Button onClick={(e) => {addToCartHandler(e)}} className='btn-block' type='button' disabled={product.countInStock === 0}>
+                                <Button onClick={(e) => {addToWhishlist(e)}} className='btn-block' type='button' disabled={product.countInStock === 0}>
                                     Add To Cart
                                 </Button>
                             </ListGroup.Item>
