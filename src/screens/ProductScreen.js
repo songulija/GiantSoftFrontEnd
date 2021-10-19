@@ -10,7 +10,7 @@ function ProductScreen(props) {
     const dispatch = useDispatch();
     const [product,setProduct] = useState({});
     const productId = props.match.params.id;
-    const [qty,setQty] = useState(0);
+    const [qty,setQty] = useState(1);
     const [userData,setUserData] = useState({});
 
     //check if user is logged in. getting  userLogin state. getting user state from redux
@@ -49,7 +49,9 @@ function ProductScreen(props) {
     useEffect(()=>{
         getProduct();
         // to get userId
-        dispatch(getUserId());
+        dispatch(getUserId(1,()=>{
+            
+        }));
     },[])
     
     return (

@@ -88,7 +88,7 @@ export const register = (postObject) => async (dispatch) => {
 
 }
 
-export const getUserId = () => async(dispatch, getState)=>{
+export const getUserId = (num,callback) => async(dispatch, getState)=>{
     try{
         dispatch({
             type: 'USER_DATA_REQUEST'
@@ -107,6 +107,7 @@ export const getUserId = () => async(dispatch, getState)=>{
             type: 'USER_DATA_SUCCESS',
             payload: response.data
         });
+        callback()
     }catch(error){
         dispatch({
             type: 'USER_DATA_FAIL',
