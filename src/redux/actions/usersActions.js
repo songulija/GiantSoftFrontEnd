@@ -23,7 +23,7 @@ export const login = (email, password) => async (dispatch) => {
         console.log('Login response is: '+JSON.stringify(response.data))
         dispatch({//dispatch action with type/name USER_LOGIN_SUCCESS. and send data as payload
             type: 'USER_LOGIN_SUCCESS',
-            payload: response.data.token
+            payload: response.data
         })
 
         //then we want to set our user to local storage. set this 'userInfo' and pass data as as string(json)
@@ -66,12 +66,12 @@ export const register = (postObject) => async (dispatch) => {
 
         dispatch({
             type: 'USER_REGISTER_SUCCESS',
-            payload: response.data.token,
+            payload: response.data,
         })
 
         dispatch({
             type: 'USER_LOGIN_SUCCESS',
-            payload: response.data.token,
+            payload: response.data,
         })
 
         localStorage.setItem('currentUser', response.data.token);
@@ -86,4 +86,34 @@ export const register = (postObject) => async (dispatch) => {
         })
     }
 
+}
+
+export const getUserId = () => async(dispatch, getState)=>{
+    try{
+        dispatch({
+            type: 'USER_DATA_REQUEST'
+        });
+        const { usersReducer: { currentUser } } = getState();//get user info
+        console.log('getUserId token is:'+JSON.stringify(currentUser))
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         Authorization: `Bearer ${currentUser}`
+        //     }
+        // }//setting authorization to our token
+        const response = await axios.get('/api/accounts',{headers: {Authorization: `Bearer ${currentUser}`}});
+        console.log('action getUserId: '+response.data);
+        dispatch({
+            type: 'USER_DATA_SUCCESS',
+            payload: response.data
+        });
+    }catch(error){
+        dispatch({
+            type: 'USER_DATA_FAIL',
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        })
+    }
 }

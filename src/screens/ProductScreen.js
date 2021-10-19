@@ -1,10 +1,12 @@
 import React,{useState,useEffect} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
+import { getUserId } from '../redux/actions/usersActions';
 
 function ProductScreen(props) {
+    const dispatch = useDispatch();
     const [product,setProduct] = useState({});
     const productId = props.match.params.id;
     const [qty,setQty] = useState(0);
@@ -37,20 +39,20 @@ function ProductScreen(props) {
         setProduct(response.data);
     }
 
-    const getUser = async()=>{
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser}`
-            }
-        }//setting authorization to our token
-        const response = await axios.get(`/api/accounts`,config);
-        console.log('User is:'+JSON.stringify(response.data));
+    // const getUser = async()=>{
+    //     const config = {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             Authorization: `Bearer ${currentUser}`
+    //         }
+    //     }//setting authorization to our token
+    //     const response = await axios.get(`/api/accounts`,config);
+    //     console.log('User is:'+response.data);
 
-    }
+    // }
     useEffect(()=>{
-        getUser();
         getProduct();
+        dispatch(getUserId());
     },[])
     
     return (
