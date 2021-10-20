@@ -31,7 +31,8 @@ function ProductScreen(props) {
             
             const obj = {
                 "userId": usersReducer.userId,
-                "productId": productId
+                "productId": productId,
+                "quantity": qty
             }
             console.log('POST object is: '+ JSON.stringify(obj));
             const response = await axios.post(`/api/wishlists`,obj);
